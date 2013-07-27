@@ -1,0 +1,15 @@
+//mix of float and int
+
+int i;
+float f;
+
+i = 3;
+f = 5.0;
+
+println i + f;
+println i - f;
+println i * f;
+println i / f;
+println;
+println i^3 + f;
+println i + f^3;

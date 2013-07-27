@@ -1,0 +1,23 @@
+//read statement
+
+int i;
+float f;
+
+int[1] a;
+float[1] b;
+bool[1] c;
+
+i = read;
+
+println i;
+
+f = read;
+
+println f;
+
+a[0] = read;
+b[0] = read;
+c[0] = read;
+
+println a[0], b[0], c[0];
+

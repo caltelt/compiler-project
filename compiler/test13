@@ -1,0 +1,61 @@
+//functions w/ recursion
+
+float f;
+int i;
+
+def int func1()
+{
+        return 10;
+}
+
+def int func2()
+{
+        i = i + 1;
+        if(i < 20)
+        {
+                i = func2();
+        }
+        return i;
+}
+
+def void func3()
+{
+        i = i + 1;
+        if(i < 30)
+        {
+                func3();
+        }
+}
+
+def float func4()
+{
+        f = f + 1 + 0.1;
+        if(f < 40)
+        {
+                func4();
+        }
+        return f;
+}
+
+
+i = 0;
+
+i = func1();
+
+println i;
+
+i = 0;
+i = func2();
+
+println i;
+
+i = 0;
+func3();
+
+println i;
+
+println;
+
+f = 0.0;
+func4();
+println f;

@@ -1,0 +1,39 @@
+//if else statements
+
+if(true && 3 > 5)
+{
+        println true;
+}
+else
+{
+        println false;
+}
+
+if(false || 3 > 5 || (true && false))
+{
+        println true;
+}
+else
+{
+        println false;
+}
+
+println;
+
+if(true && 3 < 5)
+{
+        println true;
+}
+else
+{
+        println false;
+}
+
+if(false || 3 > 5 || (true || false))
+{
+        println true;
+}
+else
+{
+        println false;
+}

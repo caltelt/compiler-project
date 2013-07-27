@@ -1,0 +1,16 @@
+//boolean expressions
+
+bool b;
+bool c;
+bool d;
+
+b = true;
+c = false;
+
+println b && c;
+println b || c;
+println b && !c;
+
+d = b && c;
+
+println d;

@@ -1,0 +1,8 @@
+//float exponents
+
+float f;
+
+f = 3.0;
+
+println f^3;
+println -f^2;

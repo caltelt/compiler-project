@@ -1,0 +1,28 @@
+//int operations
+
+int i;
+int j;
+int k;
+
+bool b;
+bool c;
+
+i = 3;
+j = 5;
+k = 7;
+
+println i + j + k;
+println i - j - k;
+println i * j * k;
+println i / j / k;
+println -i;
+
+println (i + j) % 2;
+
+
+b = true;
+c = false;
+
+println;
+println b;
+println c;

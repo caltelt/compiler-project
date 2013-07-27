@@ -1,0 +1,2164 @@
+Grammar
+
+    0 $accept: Prog $end
+
+    1 Prog: Declarations Functions StmtSeq
+
+    2 Declarations: Dec Declarations
+    3             | /* empty */
+
+    4 Dec: Int Id ';'
+    5    | Bool Id ';'
+    6    | Float Id ';'
+    7    | Int '[' SIZE ']' Id ';'
+    8    | Bool '[' SIZE ']' Id ';'
+    9    | Float '[' SIZE ']' Id ';'
+
+   10 Functions: FuncDec Functions
+   11          | /* empty */
+
+   12 $@1: /* empty */
+
+   13 FuncDec: Def Int Ident $@1 '(' ')' '{' RStmtSeq '}'
+
+   14 $@2: /* empty */
+
+   15 FuncDec: Def Bool Ident $@2 '(' ')' '{' RStmtSeq '}'
+
+   16 $@3: /* empty */
+
+   17 FuncDec: Def Float Ident $@3 '(' ')' '{' RStmtSeq '}'
+
+   18 $@4: /* empty */
+
+   19 FuncDec: Def Void Ident $@4 '(' ')' '{' StmtSeq '}'
+
+   20 RStmtSeq: StmtSeq Return E0 ';'
+
+   21 StmtSeq: Stmt StmtSeq
+   22        | /* empty */
+
+   23 Stmt: PRINTSPACE E0 ';'
+   24     | PRINTLN P0 ';'
+   25     | PRINT P1 ';'
+   26     | Id '(' ')' ';'
+   27     | Id '=' R0 ';'
+   28     | E5 '=' R0 ';'
+   29     | Id '=' Read ';'
+   30     | E5 '=' Read ';'
+   31     | IF '(' R0 ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 ')' '{' StmtSeq '}'
+   33     | WHILE '(' E0 ')' '{' StmtSeq '}'
+
+   34 P0: P1 ',' E0
+   35   | E0
+   36   | /* empty */
+
+   37 P1: P1 ',' E0
+   38   | E0
+
+   39 R0: Id '(' ')'
+   40   | E0
+
+   41 E0: E0 BoolAnd E1
+   42   | E0 BoolOr E1
+   43   | E1
+
+   44 E1: E2 EQ E2
+   45   | E2 NEQ E2
+   46   | E2 GT E2
+   47   | E2 LT E2
+   48   | E2 GTE E2
+   49   | E2 LTE E2
+   50   | E2
+
+   51 E2: E2 '+' E3
+   52   | E2 '-' E3
+   53   | E3
+
+   54 E3: E3 '*' E4
+   55   | E3 '/' E4
+   56   | E3 '%' E4
+   57   | O0
+
+   58 O0: O1 '^' O1
+   59   | O1
+
+   60 O1: '(' E0 ')'
+   61   | Not O1
+   62   | '-' O1
+   63   | E4
+
+   64 E4: IntLit
+   65   | FloatLit
+   66   | BoolLit
+   67   | Id '[' E2 ']'
+   68   | Id
+
+   69 E5: Id '[' E2 ']'
+
+   70 Id: Ident
+
+   71 SIZE: IntLit
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'%' (37) 56
+'(' (40) 13 15 17 19 26 31 32 33 39 60
+')' (41) 13 15 17 19 26 31 32 33 39 60
+'*' (42) 54
+'+' (43) 51
+',' (44) 34 37
+'-' (45) 52 62
+'/' (47) 55
+';' (59) 4 5 6 7 8 9 20 23 24 25 26 27 28 29 30
+'=' (61) 27 28 29 30
+'[' (91) 7 8 9 67 69
+']' (93) 7 8 9 67 69
+'^' (94) 58
+'{' (123) 13 15 17 19 31 32 33
+'}' (125) 13 15 17 19 31 32 33
+error (256)
+Ident (258) 13 15 17 19 70
+IntLit (259) 64 71
+FloatLit (260) 65
+Int (261) 4 7 13
+Float (262) 6 9 17
+PRINT (263) 25
+PRINTLN (264) 24
+PRINTSPACE (265) 23
+IF (266) 31 32
+ELSE (267) 31
+WHILE (268) 33
+EQ (269) 44
+NEQ (270) 45
+LT (271) 47
+LTE (272) 49
+GT (273) 46
+GTE (274) 48
+Bool (275) 5 8 15
+BoolLit (276) 66
+BoolAnd (277) 41
+BoolOr (278) 42
+Def (279) 13 15 17 19
+Return (280) 20
+Void (281) 19
+Not (282) 61
+Read (283) 29 30
+
+
+Nonterminals, with rules where they appear
+
+$accept (44)
+    on left: 0
+Prog (45)
+    on left: 1, on right: 0
+Declarations (46)
+    on left: 2 3, on right: 1 2
+Dec (47)
+    on left: 4 5 6 7 8 9, on right: 2
+Functions (48)
+    on left: 10 11, on right: 1 10
+FuncDec (49)
+    on left: 13 15 17 19, on right: 10
+$@1 (50)
+    on left: 12, on right: 13
+$@2 (51)
+    on left: 14, on right: 15
+$@3 (52)
+    on left: 16, on right: 17
+$@4 (53)
+    on left: 18, on right: 19
+RStmtSeq (54)
+    on left: 20, on right: 13 15 17
+StmtSeq (55)
+    on left: 21 22, on right: 1 19 20 21 31 32 33
+Stmt (56)
+    on left: 23 24 25 26 27 28 29 30 31 32 33, on right: 21
+P0 (57)
+    on left: 34 35 36, on right: 24
+P1 (58)
+    on left: 37 38, on right: 25 34 37
+R0 (59)
+    on left: 39 40, on right: 27 28 31 32
+E0 (60)
+    on left: 41 42 43, on right: 20 23 33 34 35 37 38 40 41 42 60
+E1 (61)
+    on left: 44 45 46 47 48 49 50, on right: 41 42 43
+E2 (62)
+    on left: 51 52 53, on right: 44 45 46 47 48 49 50 51 52 67 69
+E3 (63)
+    on left: 54 55 56 57, on right: 51 52 53 54 55 56
+O0 (64)
+    on left: 58 59, on right: 57
+O1 (65)
+    on left: 60 61 62 63, on right: 58 59 61 62
+E4 (66)
+    on left: 64 65 66 67 68, on right: 54 55 56 63
+E5 (67)
+    on left: 69, on right: 28 30
+Id (68)
+    on left: 70, on right: 4 5 6 7 8 9 26 27 29 39 67 68 69
+SIZE (69)
+    on left: 71, on right: 7 8 9
+
+
+state 0
+
+    0 $accept: . Prog $end
+
+    Int    shift, and go to state 1
+    Float  shift, and go to state 2
+    Bool   shift, and go to state 3
+
+    $default  reduce using rule 3 (Declarations)
+
+    Prog          go to state 4
+    Declarations  go to state 5
+    Dec           go to state 6
+
+
+state 1
+
+    4 Dec: Int . Id ';'
+    7    | Int . '[' SIZE ']' Id ';'
+
+    Ident  shift, and go to state 7
+    '['    shift, and go to state 8
+
+    Id  go to state 9
+
+
+state 2
+
+    6 Dec: Float . Id ';'
+    9    | Float . '[' SIZE ']' Id ';'
+
+    Ident  shift, and go to state 7
+    '['    shift, and go to state 10
+
+    Id  go to state 11
+
+
+state 3
+
+    5 Dec: Bool . Id ';'
+    8    | Bool . '[' SIZE ']' Id ';'
+
+    Ident  shift, and go to state 7
+    '['    shift, and go to state 12
+
+    Id  go to state 13
+
+
+state 4
+
+    0 $accept: Prog . $end
+
+    $end  shift, and go to state 14
+
+
+state 5
+
+    1 Prog: Declarations . Functions StmtSeq
+
+    Def  shift, and go to state 15
+
+    $default  reduce using rule 11 (Functions)
+
+    Functions  go to state 16
+    FuncDec    go to state 17
+
+
+state 6
+
+    2 Declarations: Dec . Declarations
+
+    Int    shift, and go to state 1
+    Float  shift, and go to state 2
+    Bool   shift, and go to state 3
+
+    $default  reduce using rule 3 (Declarations)
+
+    Declarations  go to state 18
+    Dec           go to state 6
+
+
+state 7
+
+   70 Id: Ident .
+
+    $default  reduce using rule 70 (Id)
+
+
+state 8
+
+    7 Dec: Int '[' . SIZE ']' Id ';'
+
+    IntLit  shift, and go to state 19
+
+    SIZE  go to state 20
+
+
+state 9
+
+    4 Dec: Int Id . ';'
+
+    ';'  shift, and go to state 21
+
+
+state 10
+
+    9 Dec: Float '[' . SIZE ']' Id ';'
+
+    IntLit  shift, and go to state 19
+
+    SIZE  go to state 22
+
+
+state 11
+
+    6 Dec: Float Id . ';'
+
+    ';'  shift, and go to state 23
+
+
+state 12
+
+    8 Dec: Bool '[' . SIZE ']' Id ';'
+
+    IntLit  shift, and go to state 19
+
+    SIZE  go to state 24
+
+
+state 13
+
+    5 Dec: Bool Id . ';'
+
+    ';'  shift, and go to state 25
+
+
+state 14
+
+    0 $accept: Prog $end .
+
+    $default  accept
+
+
+state 15
+
+   13 FuncDec: Def . Int Ident $@1 '(' ')' '{' RStmtSeq '}'
+   15        | Def . Bool Ident $@2 '(' ')' '{' RStmtSeq '}'
+   17        | Def . Float Ident $@3 '(' ')' '{' RStmtSeq '}'
+   19        | Def . Void Ident $@4 '(' ')' '{' StmtSeq '}'
+
+    Int    shift, and go to state 26
+    Float  shift, and go to state 27
+    Bool   shift, and go to state 28
+    Void   shift, and go to state 29
+
+
+state 16
+
+    1 Prog: Declarations Functions . StmtSeq
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 35
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 17
+
+   10 Functions: FuncDec . Functions
+
+    Def  shift, and go to state 15
+
+    $default  reduce using rule 11 (Functions)
+
+    Functions  go to state 39
+    FuncDec    go to state 17
+
+
+state 18
+
+    2 Declarations: Dec Declarations .
+
+    $default  reduce using rule 2 (Declarations)
+
+
+state 19
+
+   71 SIZE: IntLit .
+
+    $default  reduce using rule 71 (SIZE)
+
+
+state 20
+
+    7 Dec: Int '[' SIZE . ']' Id ';'
+
+    ']'  shift, and go to state 40
+
+
+state 21
+
+    4 Dec: Int Id ';' .
+
+    $default  reduce using rule 4 (Dec)
+
+
+state 22
+
+    9 Dec: Float '[' SIZE . ']' Id ';'
+
+    ']'  shift, and go to state 41
+
+
+state 23
+
+    6 Dec: Float Id ';' .
+
+    $default  reduce using rule 6 (Dec)
+
+
+state 24
+
+    8 Dec: Bool '[' SIZE . ']' Id ';'
+
+    ']'  shift, and go to state 42
+
+
+state 25
+
+    5 Dec: Bool Id ';' .
+
+    $default  reduce using rule 5 (Dec)
+
+
+state 26
+
+   13 FuncDec: Def Int . Ident $@1 '(' ')' '{' RStmtSeq '}'
+
+    Ident  shift, and go to state 43
+
+
+state 27
+
+   17 FuncDec: Def Float . Ident $@3 '(' ')' '{' RStmtSeq '}'
+
+    Ident  shift, and go to state 44
+
+
+state 28
+
+   15 FuncDec: Def Bool . Ident $@2 '(' ')' '{' RStmtSeq '}'
+
+    Ident  shift, and go to state 45
+
+
+state 29
+
+   19 FuncDec: Def Void . Ident $@4 '(' ')' '{' StmtSeq '}'
+
+    Ident  shift, and go to state 46
+
+
+state 30
+
+   25 Stmt: PRINT . P1 ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    P1  go to state 53
+    E0  go to state 54
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 31
+
+   24 Stmt: PRINTLN . P0 ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    $default  reduce using rule 36 (P0)
+
+    P0  go to state 62
+    P1  go to state 63
+    E0  go to state 64
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 32
+
+   23 Stmt: PRINTSPACE . E0 ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 65
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 33
+
+   31 Stmt: IF . '(' R0 ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF . '(' R0 ')' '{' StmtSeq '}'
+
+    '('  shift, and go to state 66
+
+
+state 34
+
+   33 Stmt: WHILE . '(' E0 ')' '{' StmtSeq '}'
+
+    '('  shift, and go to state 67
+
+
+state 35
+
+    1 Prog: Declarations Functions StmtSeq .
+
+    $default  reduce using rule 1 (Prog)
+
+
+state 36
+
+   21 StmtSeq: Stmt . StmtSeq
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 68
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 37
+
+   28 Stmt: E5 . '=' R0 ';'
+   30     | E5 . '=' Read ';'
+
+    '='  shift, and go to state 69
+
+
+state 38
+
+   26 Stmt: Id . '(' ')' ';'
+   27     | Id . '=' R0 ';'
+   29     | Id . '=' Read ';'
+   69 E5: Id . '[' E2 ']'
+
+    '['  shift, and go to state 70
+    '('  shift, and go to state 71
+    '='  shift, and go to state 72
+
+
+state 39
+
+   10 Functions: FuncDec Functions .
+
+    $default  reduce using rule 10 (Functions)
+
+
+state 40
+
+    7 Dec: Int '[' SIZE ']' . Id ';'
+
+    Ident  shift, and go to state 7
+
+    Id  go to state 73
+
+
+state 41
+
+    9 Dec: Float '[' SIZE ']' . Id ';'
+
+    Ident  shift, and go to state 7
+
+    Id  go to state 74
+
+
+state 42
+
+    8 Dec: Bool '[' SIZE ']' . Id ';'
+
+    Ident  shift, and go to state 7
+
+    Id  go to state 75
+
+
+state 43
+
+   13 FuncDec: Def Int Ident . $@1 '(' ')' '{' RStmtSeq '}'
+
+    $default  reduce using rule 12 ($@1)
+
+    $@1  go to state 76
+
+
+state 44
+
+   17 FuncDec: Def Float Ident . $@3 '(' ')' '{' RStmtSeq '}'
+
+    $default  reduce using rule 16 ($@3)
+
+    $@3  go to state 77
+
+
+state 45
+
+   15 FuncDec: Def Bool Ident . $@2 '(' ')' '{' RStmtSeq '}'
+
+    $default  reduce using rule 14 ($@2)
+
+    $@2  go to state 78
+
+
+state 46
+
+   19 FuncDec: Def Void Ident . $@4 '(' ')' '{' StmtSeq '}'
+
+    $default  reduce using rule 18 ($@4)
+
+    $@4  go to state 79
+
+
+state 47
+
+   64 E4: IntLit .
+
+    $default  reduce using rule 64 (E4)
+
+
+state 48
+
+   65 E4: FloatLit .
+
+    $default  reduce using rule 65 (E4)
+
+
+state 49
+
+   66 E4: BoolLit .
+
+    $default  reduce using rule 66 (E4)
+
+
+state 50
+
+   61 O1: Not . O1
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    O1  go to state 80
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 51
+
+   60 O1: '(' . E0 ')'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 81
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 52
+
+   62 O1: '-' . O1
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    O1  go to state 82
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 53
+
+   25 Stmt: PRINT P1 . ';'
+   37 P1: P1 . ',' E0
+
+    ';'  shift, and go to state 83
+    ','  shift, and go to state 84
+
+
+state 54
+
+   38 P1: E0 .
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+
+    $default  reduce using rule 38 (P1)
+
+
+state 55
+
+   43 E0: E1 .
+
+    $default  reduce using rule 43 (E0)
+
+
+state 56
+
+   44 E1: E2 . EQ E2
+   45   | E2 . NEQ E2
+   46   | E2 . GT E2
+   47   | E2 . LT E2
+   48   | E2 . GTE E2
+   49   | E2 . LTE E2
+   50   | E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    EQ   shift, and go to state 87
+    NEQ  shift, and go to state 88
+    LT   shift, and go to state 89
+    LTE  shift, and go to state 90
+    GT   shift, and go to state 91
+    GTE  shift, and go to state 92
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 50 (E1)
+
+
+state 57
+
+   53 E2: E3 .
+   54 E3: E3 . '*' E4
+   55   | E3 . '/' E4
+   56   | E3 . '%' E4
+
+    '*'  shift, and go to state 95
+    '/'  shift, and go to state 96
+    '%'  shift, and go to state 97
+
+    $default  reduce using rule 53 (E2)
+
+
+state 58
+
+   57 E3: O0 .
+
+    $default  reduce using rule 57 (E3)
+
+
+state 59
+
+   58 O0: O1 . '^' O1
+   59   | O1 .
+
+    '^'  shift, and go to state 98
+
+    $default  reduce using rule 59 (O0)
+
+
+state 60
+
+   63 O1: E4 .
+
+    $default  reduce using rule 63 (O1)
+
+
+state 61
+
+   67 E4: Id . '[' E2 ']'
+   68   | Id .
+
+    '['  shift, and go to state 99
+
+    $default  reduce using rule 68 (E4)
+
+
+state 62
+
+   24 Stmt: PRINTLN P0 . ';'
+
+    ';'  shift, and go to state 100
+
+
+state 63
+
+   34 P0: P1 . ',' E0
+   37 P1: P1 . ',' E0
+
+    ','  shift, and go to state 101
+
+
+state 64
+
+   35 P0: E0 .
+   38 P1: E0 .
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+
+    ','       reduce using rule 38 (P1)
+    $default  reduce using rule 35 (P0)
+
+
+state 65
+
+   23 Stmt: PRINTSPACE E0 . ';'
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+    ';'      shift, and go to state 102
+
+
+state 66
+
+   31 Stmt: IF '(' . R0 ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' . R0 ')' '{' StmtSeq '}'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    R0  go to state 103
+    E0  go to state 104
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 105
+
+
+state 67
+
+   33 Stmt: WHILE '(' . E0 ')' '{' StmtSeq '}'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 106
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 68
+
+   21 StmtSeq: Stmt StmtSeq .
+
+    $default  reduce using rule 21 (StmtSeq)
+
+
+state 69
+
+   28 Stmt: E5 '=' . R0 ';'
+   30     | E5 '=' . Read ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    Read      shift, and go to state 107
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    R0  go to state 108
+    E0  go to state 104
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 105
+
+
+state 70
+
+   69 E5: Id '[' . E2 ']'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 109
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 71
+
+   26 Stmt: Id '(' . ')' ';'
+
+    ')'  shift, and go to state 110
+
+
+state 72
+
+   27 Stmt: Id '=' . R0 ';'
+   29     | Id '=' . Read ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    Read      shift, and go to state 111
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    R0  go to state 112
+    E0  go to state 104
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 105
+
+
+state 73
+
+    7 Dec: Int '[' SIZE ']' Id . ';'
+
+    ';'  shift, and go to state 113
+
+
+state 74
+
+    9 Dec: Float '[' SIZE ']' Id . ';'
+
+    ';'  shift, and go to state 114
+
+
+state 75
+
+    8 Dec: Bool '[' SIZE ']' Id . ';'
+
+    ';'  shift, and go to state 115
+
+
+state 76
+
+   13 FuncDec: Def Int Ident $@1 . '(' ')' '{' RStmtSeq '}'
+
+    '('  shift, and go to state 116
+
+
+state 77
+
+   17 FuncDec: Def Float Ident $@3 . '(' ')' '{' RStmtSeq '}'
+
+    '('  shift, and go to state 117
+
+
+state 78
+
+   15 FuncDec: Def Bool Ident $@2 . '(' ')' '{' RStmtSeq '}'
+
+    '('  shift, and go to state 118
+
+
+state 79
+
+   19 FuncDec: Def Void Ident $@4 . '(' ')' '{' StmtSeq '}'
+
+    '('  shift, and go to state 119
+
+
+state 80
+
+   61 O1: Not O1 .
+
+    $default  reduce using rule 61 (O1)
+
+
+state 81
+
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+   60 O1: '(' E0 . ')'
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+    ')'      shift, and go to state 120
+
+
+state 82
+
+   62 O1: '-' O1 .
+
+    $default  reduce using rule 62 (O1)
+
+
+state 83
+
+   25 Stmt: PRINT P1 ';' .
+
+    $default  reduce using rule 25 (Stmt)
+
+
+state 84
+
+   37 P1: P1 ',' . E0
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 121
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 85
+
+   41 E0: E0 BoolAnd . E1
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E1  go to state 122
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 86
+
+   42 E0: E0 BoolOr . E1
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E1  go to state 123
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 87
+
+   44 E1: E2 EQ . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 124
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 88
+
+   45 E1: E2 NEQ . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 125
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 89
+
+   47 E1: E2 LT . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 126
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 90
+
+   49 E1: E2 LTE . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 127
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 91
+
+   46 E1: E2 GT . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 128
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 92
+
+   48 E1: E2 GTE . E2
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 129
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 93
+
+   51 E2: E2 '+' . E3
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E3  go to state 130
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 94
+
+   52 E2: E2 '-' . E3
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E3  go to state 131
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 95
+
+   54 E3: E3 '*' . E4
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+
+    E4  go to state 132
+    Id  go to state 61
+
+
+state 96
+
+   55 E3: E3 '/' . E4
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+
+    E4  go to state 133
+    Id  go to state 61
+
+
+state 97
+
+   56 E3: E3 '%' . E4
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+
+    E4  go to state 134
+    Id  go to state 61
+
+
+state 98
+
+   58 O0: O1 '^' . O1
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    O1  go to state 135
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 99
+
+   67 E4: Id '[' . E2 ']'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E2  go to state 136
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 100
+
+   24 Stmt: PRINTLN P0 ';' .
+
+    $default  reduce using rule 24 (Stmt)
+
+
+state 101
+
+   34 P0: P1 ',' . E0
+   37 P1: P1 ',' . E0
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 137
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 102
+
+   23 Stmt: PRINTSPACE E0 ';' .
+
+    $default  reduce using rule 23 (Stmt)
+
+
+state 103
+
+   31 Stmt: IF '(' R0 . ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 . ')' '{' StmtSeq '}'
+
+    ')'  shift, and go to state 138
+
+
+state 104
+
+   40 R0: E0 .
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+
+    $default  reduce using rule 40 (R0)
+
+
+state 105
+
+   39 R0: Id . '(' ')'
+   67 E4: Id . '[' E2 ']'
+   68   | Id .
+
+    '['  shift, and go to state 99
+    '('  shift, and go to state 139
+
+    $default  reduce using rule 68 (E4)
+
+
+state 106
+
+   33 Stmt: WHILE '(' E0 . ')' '{' StmtSeq '}'
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+    ')'      shift, and go to state 140
+
+
+state 107
+
+   30 Stmt: E5 '=' Read . ';'
+
+    ';'  shift, and go to state 141
+
+
+state 108
+
+   28 Stmt: E5 '=' R0 . ';'
+
+    ';'  shift, and go to state 142
+
+
+state 109
+
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+   69 E5: Id '[' E2 . ']'
+
+    ']'  shift, and go to state 143
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+
+state 110
+
+   26 Stmt: Id '(' ')' . ';'
+
+    ';'  shift, and go to state 144
+
+
+state 111
+
+   29 Stmt: Id '=' Read . ';'
+
+    ';'  shift, and go to state 145
+
+
+state 112
+
+   27 Stmt: Id '=' R0 . ';'
+
+    ';'  shift, and go to state 146
+
+
+state 113
+
+    7 Dec: Int '[' SIZE ']' Id ';' .
+
+    $default  reduce using rule 7 (Dec)
+
+
+state 114
+
+    9 Dec: Float '[' SIZE ']' Id ';' .
+
+    $default  reduce using rule 9 (Dec)
+
+
+state 115
+
+    8 Dec: Bool '[' SIZE ']' Id ';' .
+
+    $default  reduce using rule 8 (Dec)
+
+
+state 116
+
+   13 FuncDec: Def Int Ident $@1 '(' . ')' '{' RStmtSeq '}'
+
+    ')'  shift, and go to state 147
+
+
+state 117
+
+   17 FuncDec: Def Float Ident $@3 '(' . ')' '{' RStmtSeq '}'
+
+    ')'  shift, and go to state 148
+
+
+state 118
+
+   15 FuncDec: Def Bool Ident $@2 '(' . ')' '{' RStmtSeq '}'
+
+    ')'  shift, and go to state 149
+
+
+state 119
+
+   19 FuncDec: Def Void Ident $@4 '(' . ')' '{' StmtSeq '}'
+
+    ')'  shift, and go to state 150
+
+
+state 120
+
+   60 O1: '(' E0 ')' .
+
+    $default  reduce using rule 60 (O1)
+
+
+state 121
+
+   37 P1: P1 ',' E0 .
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+
+    $default  reduce using rule 37 (P1)
+
+
+state 122
+
+   41 E0: E0 BoolAnd E1 .
+
+    $default  reduce using rule 41 (E0)
+
+
+state 123
+
+   42 E0: E0 BoolOr E1 .
+
+    $default  reduce using rule 42 (E0)
+
+
+state 124
+
+   44 E1: E2 EQ E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 44 (E1)
+
+
+state 125
+
+   45 E1: E2 NEQ E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 45 (E1)
+
+
+state 126
+
+   47 E1: E2 LT E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 47 (E1)
+
+
+state 127
+
+   49 E1: E2 LTE E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 49 (E1)
+
+
+state 128
+
+   46 E1: E2 GT E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 46 (E1)
+
+
+state 129
+
+   48 E1: E2 GTE E2 .
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+    $default  reduce using rule 48 (E1)
+
+
+state 130
+
+   51 E2: E2 '+' E3 .
+   54 E3: E3 . '*' E4
+   55   | E3 . '/' E4
+   56   | E3 . '%' E4
+
+    '*'  shift, and go to state 95
+    '/'  shift, and go to state 96
+    '%'  shift, and go to state 97
+
+    $default  reduce using rule 51 (E2)
+
+
+state 131
+
+   52 E2: E2 '-' E3 .
+   54 E3: E3 . '*' E4
+   55   | E3 . '/' E4
+   56   | E3 . '%' E4
+
+    '*'  shift, and go to state 95
+    '/'  shift, and go to state 96
+    '%'  shift, and go to state 97
+
+    $default  reduce using rule 52 (E2)
+
+
+state 132
+
+   54 E3: E3 '*' E4 .
+
+    $default  reduce using rule 54 (E3)
+
+
+state 133
+
+   55 E3: E3 '/' E4 .
+
+    $default  reduce using rule 55 (E3)
+
+
+state 134
+
+   56 E3: E3 '%' E4 .
+
+    $default  reduce using rule 56 (E3)
+
+
+state 135
+
+   58 O0: O1 '^' O1 .
+
+    $default  reduce using rule 58 (O0)
+
+
+state 136
+
+   51 E2: E2 . '+' E3
+   52   | E2 . '-' E3
+   67 E4: Id '[' E2 . ']'
+
+    ']'  shift, and go to state 151
+    '+'  shift, and go to state 93
+    '-'  shift, and go to state 94
+
+
+state 137
+
+   34 P0: P1 ',' E0 .
+   37 P1: P1 ',' E0 .
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+
+    ','       reduce using rule 37 (P1)
+    $default  reduce using rule 34 (P0)
+
+
+state 138
+
+   31 Stmt: IF '(' R0 ')' . '{' StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 ')' . '{' StmtSeq '}'
+
+    '{'  shift, and go to state 152
+
+
+state 139
+
+   39 R0: Id '(' . ')'
+
+    ')'  shift, and go to state 153
+
+
+state 140
+
+   33 Stmt: WHILE '(' E0 ')' . '{' StmtSeq '}'
+
+    '{'  shift, and go to state 154
+
+
+state 141
+
+   30 Stmt: E5 '=' Read ';' .
+
+    $default  reduce using rule 30 (Stmt)
+
+
+state 142
+
+   28 Stmt: E5 '=' R0 ';' .
+
+    $default  reduce using rule 28 (Stmt)
+
+
+state 143
+
+   69 E5: Id '[' E2 ']' .
+
+    $default  reduce using rule 69 (E5)
+
+
+state 144
+
+   26 Stmt: Id '(' ')' ';' .
+
+    $default  reduce using rule 26 (Stmt)
+
+
+state 145
+
+   29 Stmt: Id '=' Read ';' .
+
+    $default  reduce using rule 29 (Stmt)
+
+
+state 146
+
+   27 Stmt: Id '=' R0 ';' .
+
+    $default  reduce using rule 27 (Stmt)
+
+
+state 147
+
+   13 FuncDec: Def Int Ident $@1 '(' ')' . '{' RStmtSeq '}'
+
+    '{'  shift, and go to state 155
+
+
+state 148
+
+   17 FuncDec: Def Float Ident $@3 '(' ')' . '{' RStmtSeq '}'
+
+    '{'  shift, and go to state 156
+
+
+state 149
+
+   15 FuncDec: Def Bool Ident $@2 '(' ')' . '{' RStmtSeq '}'
+
+    '{'  shift, and go to state 157
+
+
+state 150
+
+   19 FuncDec: Def Void Ident $@4 '(' ')' . '{' StmtSeq '}'
+
+    '{'  shift, and go to state 158
+
+
+state 151
+
+   67 E4: Id '[' E2 ']' .
+
+    $default  reduce using rule 67 (E4)
+
+
+state 152
+
+   31 Stmt: IF '(' R0 ')' '{' . StmtSeq '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 ')' '{' . StmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 159
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 153
+
+   39 R0: Id '(' ')' .
+
+    $default  reduce using rule 39 (R0)
+
+
+state 154
+
+   33 Stmt: WHILE '(' E0 ')' '{' . StmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 160
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 155
+
+   13 FuncDec: Def Int Ident $@1 '(' ')' '{' . RStmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    RStmtSeq  go to state 161
+    StmtSeq   go to state 162
+    Stmt      go to state 36
+    E5        go to state 37
+    Id        go to state 38
+
+
+state 156
+
+   17 FuncDec: Def Float Ident $@3 '(' ')' '{' . RStmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    RStmtSeq  go to state 163
+    StmtSeq   go to state 162
+    Stmt      go to state 36
+    E5        go to state 37
+    Id        go to state 38
+
+
+state 157
+
+   15 FuncDec: Def Bool Ident $@2 '(' ')' '{' . RStmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    RStmtSeq  go to state 164
+    StmtSeq   go to state 162
+    Stmt      go to state 36
+    E5        go to state 37
+    Id        go to state 38
+
+
+state 158
+
+   19 FuncDec: Def Void Ident $@4 '(' ')' '{' . StmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 165
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 159
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq . '}' ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 ')' '{' StmtSeq . '}'
+
+    '}'  shift, and go to state 166
+
+
+state 160
+
+   33 Stmt: WHILE '(' E0 ')' '{' StmtSeq . '}'
+
+    '}'  shift, and go to state 167
+
+
+state 161
+
+   13 FuncDec: Def Int Ident $@1 '(' ')' '{' RStmtSeq . '}'
+
+    '}'  shift, and go to state 168
+
+
+state 162
+
+   20 RStmtSeq: StmtSeq . Return E0 ';'
+
+    Return  shift, and go to state 169
+
+
+state 163
+
+   17 FuncDec: Def Float Ident $@3 '(' ')' '{' RStmtSeq . '}'
+
+    '}'  shift, and go to state 170
+
+
+state 164
+
+   15 FuncDec: Def Bool Ident $@2 '(' ')' '{' RStmtSeq . '}'
+
+    '}'  shift, and go to state 171
+
+
+state 165
+
+   19 FuncDec: Def Void Ident $@4 '(' ')' '{' StmtSeq . '}'
+
+    '}'  shift, and go to state 172
+
+
+state 166
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq '}' . ELSE '{' StmtSeq '}'
+   32     | IF '(' R0 ')' '{' StmtSeq '}' .
+
+    ELSE  shift, and go to state 173
+
+    $default  reduce using rule 32 (Stmt)
+
+
+state 167
+
+   33 Stmt: WHILE '(' E0 ')' '{' StmtSeq '}' .
+
+    $default  reduce using rule 33 (Stmt)
+
+
+state 168
+
+   13 FuncDec: Def Int Ident $@1 '(' ')' '{' RStmtSeq '}' .
+
+    $default  reduce using rule 13 (FuncDec)
+
+
+state 169
+
+   20 RStmtSeq: StmtSeq Return . E0 ';'
+
+    Ident     shift, and go to state 7
+    IntLit    shift, and go to state 47
+    FloatLit  shift, and go to state 48
+    BoolLit   shift, and go to state 49
+    Not       shift, and go to state 50
+    '('       shift, and go to state 51
+    '-'       shift, and go to state 52
+
+    E0  go to state 174
+    E1  go to state 55
+    E2  go to state 56
+    E3  go to state 57
+    O0  go to state 58
+    O1  go to state 59
+    E4  go to state 60
+    Id  go to state 61
+
+
+state 170
+
+   17 FuncDec: Def Float Ident $@3 '(' ')' '{' RStmtSeq '}' .
+
+    $default  reduce using rule 17 (FuncDec)
+
+
+state 171
+
+   15 FuncDec: Def Bool Ident $@2 '(' ')' '{' RStmtSeq '}' .
+
+    $default  reduce using rule 15 (FuncDec)
+
+
+state 172
+
+   19 FuncDec: Def Void Ident $@4 '(' ')' '{' StmtSeq '}' .
+
+    $default  reduce using rule 19 (FuncDec)
+
+
+state 173
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq '}' ELSE . '{' StmtSeq '}'
+
+    '{'  shift, and go to state 175
+
+
+state 174
+
+   20 RStmtSeq: StmtSeq Return E0 . ';'
+   41 E0: E0 . BoolAnd E1
+   42   | E0 . BoolOr E1
+
+    BoolAnd  shift, and go to state 85
+    BoolOr   shift, and go to state 86
+    ';'      shift, and go to state 176
+
+
+state 175
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq '}' ELSE '{' . StmtSeq '}'
+
+    Ident       shift, and go to state 7
+    PRINT       shift, and go to state 30
+    PRINTLN     shift, and go to state 31
+    PRINTSPACE  shift, and go to state 32
+    IF          shift, and go to state 33
+    WHILE       shift, and go to state 34
+
+    $default  reduce using rule 22 (StmtSeq)
+
+    StmtSeq  go to state 177
+    Stmt     go to state 36
+    E5       go to state 37
+    Id       go to state 38
+
+
+state 176
+
+   20 RStmtSeq: StmtSeq Return E0 ';' .
+
+    $default  reduce using rule 20 (RStmtSeq)
+
+
+state 177
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq '}' ELSE '{' StmtSeq . '}'
+
+    '}'  shift, and go to state 178
+
+
+state 178
+
+   31 Stmt: IF '(' R0 ')' '{' StmtSeq '}' ELSE '{' StmtSeq '}' .
+
+    $default  reduce using rule 31 (Stmt)

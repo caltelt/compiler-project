@@ -1,0 +1,25 @@
+int j;
+int i;
+
+int[10] num3;
+
+num3[0] = 7;
+num3[1] = 8;
+num3[2] = 1;
+num3[3] = 0;
+num3[4] = 5;
+num3[5] = 3;
+num3[6] = 4;
+num3[7] = 13;
+num3[8] = 9;
+num3[9] = 2;
+
+
+j = 4;
+
+if(num3[j] > num3[j+1]) 
+{
+        temp = num3[j];
+        num3[j] = num3[j+1];
+        num3[j+1] = temp;
+}

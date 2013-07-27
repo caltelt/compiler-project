@@ -1,0 +1,8 @@
+//int exponents
+
+int i;
+
+i = 3;
+
+println i^2^3;
+println -i^3;

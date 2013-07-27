@@ -1,0 +1,15 @@
+//float operations
+
+float f;
+float g;
+float h;
+
+f = 3.0;
+g = 5.0;
+h = 7.0;
+
+println f + g + h;
+println f - g - h;
+println f * g * h;
+println f / g / h;
+println -f;

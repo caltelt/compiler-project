@@ -1,0 +1,36 @@
+//int and float arrays
+
+int[10] i;
+float[10] f;
+
+int x;
+
+x = 0;
+
+while(x < 10)
+{
+        i[x] = x;
+        f[x] = x;
+        
+        println i[x];
+        println f[x];
+
+        x = x + 1;
+}
+
+println;
+
+i[9] = i[9] + 10;
+println i[9];
+
+f[9] = f[9] + 10;
+println f[9];
+
+f[9] = f[9] + i[9];
+println f[9];
+
+f[9] = f[9]^2;
+println f[9];
+
+f[9] = f[x - 1] + f[x - 1];
+println f[9];

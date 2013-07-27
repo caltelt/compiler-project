@@ -1,0 +1,6 @@
+//print statement
+
+print true, false, 3 * 5.0;
+print 50;
+println;
+

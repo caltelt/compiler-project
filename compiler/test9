@@ -1,0 +1,5 @@
+//println and printspace
+
+printspace 5 * 10;
+println true;
+println false;
